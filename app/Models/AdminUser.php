@@ -22,7 +22,6 @@ class AdminUser extends Authenticatable
     ];
 
     protected $casts = [
-        'verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 }

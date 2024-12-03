@@ -12,5 +12,5 @@ interface AdminUserRepositoryInterface
     public function show(AdminUser $adminUser): AdminUserResource;
     public function update(AdminUser $adminUser): bool;
     public function destroy(AdminUser $adminUser): bool;
-    public function manageAuthorization(AdminUser $adminUser, string $status): bool;
+    public function manageStatus(AdminUser $adminUser, string $status): bool;
 }

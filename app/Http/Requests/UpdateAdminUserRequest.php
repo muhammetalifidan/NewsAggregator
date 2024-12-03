@@ -32,10 +32,9 @@ class UpdateAdminUserRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(AdminUser::class, 'email')->ignore($this->adminUser),
+                Rule::unique(AdminUser::class, 'email')->ignore($this->admin_user),
             ],
             'password' => ['sometimes', Password::defaults(), 'nullable'],
-            'status' => ['required, in:approved,pending,rejected'],
         ];
     }
 }

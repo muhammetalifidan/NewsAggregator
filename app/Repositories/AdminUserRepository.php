@@ -49,14 +49,14 @@ class AdminUserRepository implements AdminUserRepositoryInterface
         return $adminUser->delete();
     }
 
-    public function manageAuthorization(AdminUser $adminUser, string $status): bool
+    public function manageStatus(AdminUser $adminUser, string $status): bool
     {
         Log::info(
             message: "{date} - tarihinde {id} ID'li kullanıcının durumu, {authId} ID'li kullanıcı tarafından {status} durumuna getirildi.",
             context: [
                 'date' => now()->toDateTimeString(),
                 'id' => $adminUser->id,
-                'authId' => auth('admin')->user()->id,
+                //'authId' => auth('admin')->user()->id,
                 'status' => $status,
             ],
         );

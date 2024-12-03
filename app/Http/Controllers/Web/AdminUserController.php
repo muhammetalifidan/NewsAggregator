@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Contracts\AdminUserRepositoryInterface;
+use App\Enum\AdminUserStatusesEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManageAdminUserStatusRequest;
 use App\Http\Requests\UpdateAdminUserRequest;
 use App\Http\Resources\AdminUserResource;
 use App\Models\AdminUser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,11 +39,12 @@ class AdminUserController extends Controller
         }
 
         $adminUsers = $this->adminUserRepository->all($perPage, $search);
+        $statuses = AdminUserStatusesEnum::labels();
 
         if ($request->ajax()) {
             return view('pages.admin_users.table', compact('adminUsers'));
         }
-        return view('pages.admin_users.index', compact('adminUsers', 'perPage', 'search'));
+        return view('pages.admin_users.index', compact('adminUsers', 'perPage', 'search', 'statuses'));
     }
 
     /**
@@ -78,14 +82,13 @@ class AdminUserController extends Controller
         $validatedData = $request->validated();
         $adminUser->name = $validatedData['name'];
         $adminUser->email = $validatedData['email'];
-        $adminUser->status = $validatedData['status'];
-        
+
         if (!empty($validatedData['password'])) {
-            $adminUser->password = Hash::make($validatedData['password']);    
+            $adminUser->password = Hash::make($validatedData['password']);
         }
-        
+
         $result = $this->adminUserRepository->update($adminUser);
-        
+
         if (!$result) {
             return back()->withErrors(['errors' => 'Failed to update admin user.']);
         }
@@ -98,25 +101,38 @@ class AdminUserController extends Controller
      * @param \App\Models\AdminUser $adminUser
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(AdminUser $adminUser): RedirectResponse
+    public function destroy(AdminUser $adminUser)
     {
         $result = $this->adminUserRepository->destroy($adminUser);
 
         if (!$result) {
-            return back()->withErrors(['errors' => 'Failed to delete admin user.']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete admin user.'
+            ], 400);
         }
 
-        return back()->with('success', 'Admin user deleted successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Admin user deleted successfully.'
+        ]);
     }
 
-    public function manageAuthorization(AdminUser $adminUser, string $status): RedirectResponse
+    public function manageStatus(ManageAdminUserStatusRequest $request, AdminUser $adminUser): JsonResponse
     {
-        $result = $this->adminUserRepository->manageAuthorization($adminUser, $status);
+        $validatedData = $request->validated();
+        $result = $this->adminUserRepository->manageStatus($adminUser, $validatedData['status']);
 
         if (!$result) {
-            return back()->withErrors(['errors' => 'Failed to authorize user.']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to change admin user status.'
+            ], 400);
         }
 
-        return back()->with('success', 'User authorize successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Admin user status changed successfully.'
+        ]);
     }
 }
