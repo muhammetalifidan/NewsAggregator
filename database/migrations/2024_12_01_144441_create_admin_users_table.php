@@ -21,15 +21,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Schema::create('admin_sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('admin_user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('admin_user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
     }
 
     /**
@@ -38,6 +29,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('admin_users');
-        Schema::dropIfExists('admin_sessions');
     }
 };
