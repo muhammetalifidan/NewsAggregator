@@ -2,16 +2,15 @@
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
-        <div class="page-header-content d-lg-flex">
+        <div class="page-header-content d-lg-flex align-items-center">
             <div class="d-flex">
                 <h4 class="page-title mb-0">
                     Admin User Details
                 </h4>
-
-                <a href="#page_header"
-                    class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto"
-                    data-bs-toggle="collapse">
-                    <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
+            </div>
+            <div class="d-flex ms-auto">
+                <a href="{{ route('admin-user.index') }}" class="btn btn-outline-dark rounded">
+                    Back <i class="ph-arrow-u-up-left ms-2"></i>
                 </a>
             </div>
         </div>
@@ -25,10 +24,6 @@
         <div class="card">
             <div class="card-header d-flex">
                 <h5 class="mb-0 me-auto">Details Form</h5>
-
-                <a href="{{ route('admin-user.index') }}" class="btn btn-outline-primary btn-icon rounded-start">
-                    <i class="ph-arrow-u-up-left"></i>
-                </a>
             </div>
 
             <div class="card-body border-top">
@@ -56,14 +51,16 @@
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">Password:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" disabled>
+                        <input type="text" class="form-control"
+                            value="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">Status:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control text-capitalize" value="{{ $adminUser->status }}" disabled>
+                        <input type="text" class="form-control text-capitalize" value="{{ $adminUser->status }}"
+                            disabled>
                     </div>
                 </div>
 

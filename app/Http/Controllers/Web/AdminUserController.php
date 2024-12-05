@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Web;
 
 use App\Contracts\AdminUserRepositoryInterface;
 use App\Enum\AdminUserStatusesEnum;
+use App\Enum\RolesEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ManageAdminUserStatusRequest;
+use App\Http\Requests\ManageAdminUserRoleRequest;
 use App\Http\Requests\UpdateAdminUserRequest;
 use App\Http\Resources\AdminUserResource;
 use App\Models\AdminUser;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
@@ -31,6 +32,8 @@ class AdminUserController extends Controller
      */
     public function index(Request $request): View
     {
+        Gate::authorize('viewAny', AdminUser::class);
+
         $perPage = $request->get('per_page');
         $search = $request->get('search');
 
@@ -54,6 +57,8 @@ class AdminUserController extends Controller
      */
     public function show(AdminUser $adminUser): View
     {
+        Gate::authorize('view', [AdminUser::class, $adminUser->id]);
+
         $adminUser = $this->adminUserRepository->show($adminUser);
         return view('pages.admin_users.show', compact('adminUser'));
     }
@@ -65,10 +70,14 @@ class AdminUserController extends Controller
      */
     public function edit(AdminUser $adminUser): View
     {
+        Gate::authorize('update', [AdminUser::class, $adminUser->id]);
+
         $rawData = $this->adminUserRepository->show($adminUser);
         $adminUser = new AdminUserResource($rawData);
+        $roles = RolesEnum::labels();
+        $adminUserRole = $adminUser->getRoleNames()->first();
 
-        return view('pages.admin_users.edit', compact('adminUser'));
+        return view('pages.admin_users.edit', compact(['adminUser', 'roles', 'adminUserRole']));
     }
 
     /**
@@ -79,6 +88,8 @@ class AdminUserController extends Controller
      */
     public function update(UpdateAdminUserRequest $request, AdminUser $adminUser): RedirectResponse
     {
+        Gate::authorize('update', [AdminUser::class, $adminUser->id]);
+
         $validatedData = $request->validated();
         $adminUser->name = $validatedData['name'];
         $adminUser->email = $validatedData['email'];
@@ -93,7 +104,7 @@ class AdminUserController extends Controller
             return back()->withErrors(['errors' => 'Failed to update admin user.']);
         }
 
-        return back()->with('success', 'Admin user updated successfully');
+        return back()->with('success', 'Admin user updated successfully.');
     }
 
     /**
@@ -101,38 +112,42 @@ class AdminUserController extends Controller
      * @param \App\Models\AdminUser $adminUser
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(AdminUser $adminUser)
+    public function destroy(AdminUser $adminUser): RedirectResponse
     {
+        Gate::authorize('destroy', [AdminUser::class, $adminUser->id]);
+
+        if (auth('admin')->user()->hasRole(RolesEnum::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
+            return back()->withErrors(['errors' => 'Super Admin accounts cannot be deleted.']);
+        }
+
         $result = $this->adminUserRepository->destroy($adminUser);
 
         if (!$result) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to delete admin user.'
-            ], 400);
+            return back()->withErrors(['errors' => 'Failed to delete admin user.']);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Admin user deleted successfully.'
-        ]);
+        if ($result && $adminUser->id === auth('admin')->user()->id) {
+            return redirect('/');
+        }
+
+        return redirect(route('admin-user.index'));
     }
 
-    public function manageStatus(ManageAdminUserStatusRequest $request, AdminUser $adminUser): JsonResponse
+    public function manageRole(ManageAdminUserRoleRequest $request, AdminUser $adminUser): RedirectResponse
     {
-        $validatedData = $request->validated();
-        $result = $this->adminUserRepository->manageStatus($adminUser, $validatedData['status']);
+        Gate::authorize('manageRole', [AdminUser::class]);
 
-        if (!$result) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to change admin user status.'
-            ], 400);
+        if (auth('admin')->user()->hasRole(RolesEnum::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
+            return back()->withErrors(['errors' => 'Super Admin role cannot be changed.']);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Admin user status changed successfully.'
-        ]);
+        $validatedData = $request->validated();
+        $result = $this->adminUserRepository->manageRole($adminUser, $validatedData['role']);
+
+        if (!$result) {
+            return back()->withErrors(['errors' => 'Failed to change admin user role.']);
+        }
+
+        return back()->with('success', 'Admin user role changed successfully.');
     }
 }

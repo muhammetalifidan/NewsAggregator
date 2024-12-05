@@ -46,8 +46,7 @@
                         <label for="password" class="form-label">Password</label>
                         <div class="form-control-feedback form-control-feedback-start">
                             <input type="password" id="password" name="password"
-                                class="form-control @error('password') is-invalid @enderror" placeholder="•••••••••••"
-                                required>
+                                class="form-control @error('password') is-invalid @enderror" required>
                             <div class="form-control-feedback-icon">
                                 <i class="ph-lock text-muted"></i>
                             </div>

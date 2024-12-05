@@ -103,33 +103,6 @@
 
     <script>
         $(document).ready(function() {
-            $('#table-container').on('click', '.delete-admin-user', function(e) {
-                e.preventDefault();
-
-                const userId = $(this).data('id');
-
-                if (confirm('Are you sure you want to delete this admin user?')) {
-                    $.ajax({
-                        url: `{{ route('admin-user.destroy', ':id') }}`.replace(':id', userId),
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                refreshTable();
-                            } else {
-                                alert('Error: ' + response.message);
-                            }
-                        },
-                        error: function(xhr) {
-                            alert('An unexpected error occurred.');
-                        }
-                    });
-                }
-            });
-
             function refreshTable() {
                 const searchValue = $('#filter').val();
                 const perPage = $('#perPageSelect').val();
@@ -152,40 +125,6 @@
 
             $('#perPageSelect').on('change', function() {
                 refreshTable();
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('input[type="radio"]').on('change', function() {
-                const $this = $(this);
-                const selectedValue = $this.val();
-                const selectedLabel = $this.closest('label').text().trim();
-                const $dropdown = $this.closest('.dropdown');
-                const $statusButton = $dropdown.find('button');
-                const userId = $statusButton.attr('id').split('-')[1];
-
-                $.ajax({
-                    url: `/admin/admin-user/${userId}/status`,
-                    type: 'PUT',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        status: selectedValue,
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $statusButton.text(selectedLabel);
-                            alert(response.message);
-                        } else {
-                            alert(response.message || 'An error occurred.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', error);
-                        alert('An unexpected error occurred.');
-                    }
-                });
             });
         });
     </script>

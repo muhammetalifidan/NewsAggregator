@@ -7,8 +7,7 @@
         </div>
 
         <div class="navbar-brand flex-1 flex-lg-0">
-            <a href="#"
-                class="d-inline-flex align-items-center">
+            <a href="{{ route('admin.dashboard.index') }}" class="d-inline-flex align-items-center">
                 <img src="{{ asset('assets/images/text-logo-white.png') }}" alt=""
                     style="width: 100px; height: auto;">
             </a>
@@ -20,7 +19,7 @@
                     <img src="{{ asset('assets/images/profile.png') }}" class="w-32px h-32px rounded-pill"
                         alt="">
                     <span
-                        class="d-none d-lg-inline-block mx-lg-2">{{ Auth::guard('admin')->user()->name }}</span>
+                        class="d-none d-lg-inline-block mx-lg-2">{{ Auth::guard('admin')->check() ? Auth::guard('admin')->user()->name : 'User' }}</span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end">

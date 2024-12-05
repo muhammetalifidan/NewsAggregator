@@ -25,7 +25,8 @@ class AdminUserRepository implements AdminUserRepositoryInterface
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('status', 'like', "%{$search}%");
+                    ->orWhere('created_at', 'like', "%{$search}%")
+                    ->orWhere('id', 'like', "%{$search}%");
             });
         }
 
@@ -49,21 +50,20 @@ class AdminUserRepository implements AdminUserRepositoryInterface
         return $adminUser->delete();
     }
 
-    public function manageStatus(AdminUser $adminUser, string $status): bool
+    public function manageRole(AdminUser $adminUser, string $role): bool
     {
         Log::info(
-            message: "{date} - tarihinde {id} ID'li kullanıcının durumu, {authId} ID'li kullanıcı tarafından {status} durumuna getirildi.",
+            message: "{date} - tarihinde {id} ID'li kullanıcının durumu, {authId} ID'li kullanıcı tarafından {role} yetkisi verildi.",
             context: [
                 'date' => now()->toDateTimeString(),
                 'id' => $adminUser->id,
-                //'authId' => auth('admin')->user()->id,
-                'status' => $status,
+                'authId' => auth('admin')->user()->id,
+                'role' => $role,
             ],
         );
 
-        return $adminUser->update([
-            $adminUser->status = $status,
-            $adminUser->updated_at = now(),
-        ]);
+        $adminUser->syncRoles($role);
+
+        return true;
     }
 }

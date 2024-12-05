@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\RolesEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ManageAdminUserStatusRequest extends FormRequest
+class ManageAdminUserRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,7 @@ class ManageAdminUserStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'in:approved,pending,rejected']
+            'role' => ['required', 'in:' . implode(',', array_column(RolesEnum::cases(), 'value'))]
         ];
     }
 }
