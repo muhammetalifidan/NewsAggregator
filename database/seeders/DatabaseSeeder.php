@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Enum\PermissionsEnum;
 use App\Enum\RolesEnum;
 use App\Models\AdminUser;
+use App\Models\CallbackLog;
+use App\Models\IncomingLog;
+use App\Models\IncomingLogData;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -26,11 +29,19 @@ class DatabaseSeeder extends Seeder
         $showOwnAdminUserPermission = Permission::create(['name' => PermissionsEnum::ShowOwnAdminUser->value, 'guard_name' => 'admin']);
         $updateOwnAdminUserPermission = Permission::create(['name' => PermissionsEnum::UpdateOwnAdminUser->value, 'guard_name' => 'admin']);
         $destroyOwnAdminUserPermission = Permission::create(['name' => PermissionsEnum::DestroyOwnAdminUser->value, 'guard_name' => 'admin']);
+        $listIncomingLogsPermission = Permission::create(['name' => PermissionsEnum::ListIncomingLogs->value, 'guard_name' => 'admin']);
+        $showAnyIncomingLogPermission = Permission::create(['name' => PermissionsEnum::ShowAnyIncomingLog->value, 'guard_name' => 'admin']);
+        $listCallbackLogsPermission = Permission::create(['name' => PermissionsEnum::ListCallbackLogs->value, 'guard_name' => 'admin']);
+        $showAnyCallbackLogPermission = Permission::create(['name' => PermissionsEnum::ShowAnyCallbackLog->value, 'guard_name' => 'admin']);
 
         $userRole->syncPermissions([
             $showOwnAdminUserPermission,
             $updateOwnAdminUserPermission,
-            $destroyOwnAdminUserPermission
+            $destroyOwnAdminUserPermission,
+            $listIncomingLogsPermission,
+            $showAnyIncomingLogPermission,
+            $listCallbackLogsPermission,
+            $showAnyCallbackLogPermission,
         ]);
 
         $adminRole->syncPermissions([
@@ -38,7 +49,11 @@ class DatabaseSeeder extends Seeder
             $showAnyAdminUserPermission,
             $showOwnAdminUserPermission,
             $updateOwnAdminUserPermission,
-            $destroyOwnAdminUserPermission
+            $destroyOwnAdminUserPermission,
+            $listIncomingLogsPermission,
+            $showAnyIncomingLogPermission,
+            $listCallbackLogsPermission,
+            $showAnyCallbackLogPermission,
         ]);
 
         AdminUser::create([
@@ -65,5 +80,9 @@ class DatabaseSeeder extends Seeder
         AdminUser::factory(17)->create()->each(function ($user) {
             $user->assignRole(RolesEnum::User);
         });
+
+        IncomingLogData::factory(20)->create();
+        IncomingLog::factory(20)->create();
+        CallbackLog::factory(20)->create();
     }
 }

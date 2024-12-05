@@ -35,7 +35,7 @@ class AdminUserRepository implements AdminUserRepositoryInterface
         return AdminUserListResource::collection($results);
     }
 
-    public function show(AdminUser $adminUser): AdminUserResource
+    public function find(AdminUser $adminUser): AdminUserResource
     {
         return new AdminUserResource($adminUser);
     }

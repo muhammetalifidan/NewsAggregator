@@ -41,7 +41,18 @@
                         <span>Admin Users</span>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('incoming-log.index') }}" class="nav-link">
+                        <i class="ph-swatches"></i>
+                        <span>Incoming Logs</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('callback-log.index') }}" class="nav-link">
+                        <i class="ph-list-numbers"></i>
+                        <span>Callback Logs</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- /main navigation -->

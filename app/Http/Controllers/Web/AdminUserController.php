@@ -59,7 +59,7 @@ class AdminUserController extends Controller
     {
         Gate::authorize('view', [AdminUser::class, $adminUser->id]);
 
-        $adminUser = $this->adminUserRepository->show($adminUser);
+        $adminUser = $this->adminUserRepository->find($adminUser);
         return view('pages.admin_users.show', compact('adminUser'));
     }
 
@@ -72,7 +72,7 @@ class AdminUserController extends Controller
     {
         Gate::authorize('update', [AdminUser::class, $adminUser->id]);
 
-        $rawData = $this->adminUserRepository->show($adminUser);
+        $rawData = $this->adminUserRepository->find($adminUser);
         $adminUser = new AdminUserResource($rawData);
         $roles = RolesEnum::labels();
         $adminUserRole = $adminUser->getRoleNames()->first();
