@@ -2,7 +2,7 @@
 
 namespace App;
 
-enum CallbackLogStatusEnum
+enum CallbackLogStatus
 {
     case Pending = 'pending';
     case Confirmed = 'confirmed';

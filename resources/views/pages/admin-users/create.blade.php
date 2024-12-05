@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
@@ -26,7 +26,7 @@
             <div class="card-header d-flex">
                 <h5 class="mb-0 me-auto">Create Form</h5>
 
-                <a href="{{ route('admin.admin_users.index') }}" class="btn btn-outline-primary btn-icon rounded-start">
+                <a href="{{ route('admin.admin-users.index') }}" class="btn btn-outline-primary btn-icon rounded-start">
                     <i class="ph-arrow-u-up-left"></i>
                 </a>
             </div>
@@ -46,7 +46,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.admin_users.store') }}" method="POST">
+                <form action="{{ route('admin.admin-users.store') }}" method="POST">
                     @csrf
                     <div class="row mb-3">
                         <label class="col-lg-3 col-form-label">Email:</label>

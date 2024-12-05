@@ -32,18 +32,18 @@ class CallbackLogController extends Controller
         $callbackLogs = $this->callbackLogRepository->all($perPage, $search);
 
         if ($request->ajax()) {
-            return view('pages.callback_logs.table', compact('callbackLogs'));
+            return view('pages.callback-logs.table', compact('callbackLogs'));
         }
-        
-        return view('pages.callback_logs.index', compact('callbackLogs', 'perPage', 'search'));
+
+        return view('pages.callback-logs.index', compact('callbackLogs', 'perPage', 'search'));
     }
 
-    public function show(CallbackLog $callbackLog)
+    public function show(CallbackLog $callbackLog): View
     {
         Gate::authorize('view', CallbackLog::class);
 
         $callbackLog = $this->callbackLogRepository->find($callbackLog);
 
-        return view('pages.callback_logs.show', compact('callbackLog'));
+        return view('pages.callback-logs.show', compact('callbackLog'));
     }
 }

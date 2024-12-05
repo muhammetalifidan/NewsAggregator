@@ -1,11 +1,11 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
         <div class="page-header-content d-lg-flex">
             <div class="d-flex">
                 <h4 class="page-title mb-0">
-                    Incoming Logs
+                    Callback Logs
                 </h4>
 
                 <a href="#page_header"
@@ -50,7 +50,7 @@
 
 
             <div id="table-container">
-                @include('pages.incoming_logs.table')
+                @include('pages.callback-logs.table')
             </div>
 
         </div>
@@ -72,7 +72,7 @@
                 const perPage = $('#perPageSelect').val();
 
                 $.ajax({
-                    url: '{{ route('incoming-log.index') }}',
+                    url: '{{ route('callback-logs.index') }}',
                     data: {
                         search: searchValue,
                         per_page: perPage
@@ -89,7 +89,7 @@
             const perPage = $(this).val();
 
             $.ajax({
-                url: '{{ route('incoming-log.index') }}',
+                url: '{{ route('callback-logs.index') }}',
                 data: {
                     search: searchValue,
                     per_page: perPage
@@ -108,7 +108,7 @@
                 const perPage = $('#perPageSelect').val();
 
                 $.ajax({
-                    url: '{{ route('incoming-log.index') }}',
+                    url: '{{ route('callback-logs.index') }}',
                     data: {
                         search: searchValue,
                         per_page: perPage

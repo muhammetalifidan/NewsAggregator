@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Enum\RolesEnum;
+use App\Enum\RoleType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterAdminUserRequest;
 use App\Models\AdminUser;
@@ -14,7 +14,7 @@ class RegisteredAdminController extends Controller
 {
     public function create()
     {
-        return view('pages.auth.admin_register');
+        return view('pages.auth.admin-register');
     }
 
     public function store(RegisterAdminUserRequest $request)
@@ -27,7 +27,7 @@ class RegisteredAdminController extends Controller
             'password' => Hash::make($validatedData['password'])
         ]);
 
-        $adminUser->assignRole(RolesEnum::User);
+        $adminUser->assignRole(RoleType::User);
 
         event(new Registered($adminUser));
 

@@ -36,19 +36,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin-user.index') }}" class="nav-link">
+                    <a href="{{ route('admin-users.index') }}" class="nav-link">
                         <i class="ph-layout"></i>
                         <span>Admin Users</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('incoming-log.index') }}" class="nav-link">
+                    <a href="{{ route('incoming-logs.index') }}" class="nav-link">
                         <i class="ph-swatches"></i>
                         <span>Incoming Logs</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('callback-log.index') }}" class="nav-link">
+                    <a href="{{ route('callback-logs.index') }}" class="nav-link">
                         <i class="ph-list-numbers"></i>
                         <span>Callback Logs</span>
                     </a>

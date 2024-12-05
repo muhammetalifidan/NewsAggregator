@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Enum\PermissionsEnum;
-use App\Enum\RolesEnum;
+use App\Enum\PermissionType;
+use App\Enum\RoleType;
 use App\Models\AdminUser;
-use App\Models\CallbackLog;
 
 class CallbackLogPolicy
 {
@@ -14,11 +13,11 @@ class CallbackLogPolicy
      */
     public function viewAny(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ListCallbackLogs)) {
+        if ($adminUser->can(PermissionType::ListCallbackLogs)) {
             return true;
         }
 
@@ -30,11 +29,11 @@ class CallbackLogPolicy
      */
     public function view(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ShowAnyCallbackLog)) {
+        if ($adminUser->can(PermissionType::ShowAnyCallbackLog)) {
             return true;
         }
 

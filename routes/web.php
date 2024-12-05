@@ -24,14 +24,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::middleware('auth.admin')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard.index');
 
-        Route::resource('admin-user', AdminUserController::class)->except('create', 'store');
-        Route::put('admin-user/{admin_user}/role', [AdminUserController::class, 'manageRole'])->name('admin-user.role');
+        Route::resource('admin-users', AdminUserController::class)->except('create', 'store');
+        Route::put('admin-users/{admin_user}/role', [AdminUserController::class, 'manageRole'])->name('admin-users.role');
 
-        Route::get('callback-log', [CallbackLogController::class, 'index'])->name('callback-log.index');
-        Route::get('callback-log/{callback_log}', [CallbackLogController::class, 'show'])->name('callback-log.show');
+        Route::get('callback-logs', [CallbackLogController::class, 'index'])->name('callback-logs.index');
+        Route::get('callback-logs/{callback_log}', [CallbackLogController::class, 'show'])->name('callback-logs.show');
 
-        Route::get('incoming-log', [IncomingLogController::class, 'index'])->name('incoming-log.index');
-        Route::get('incoming-log/{incoming_log}', [IncomingLogController::class, 'show'])->name('incoming-log.show');
+        Route::get('incoming-logs', [IncomingLogController::class, 'index'])->name('incoming-logs.index');
+        Route::get('incoming-logs/{incoming_log}', [IncomingLogController::class, 'show'])->name('incoming-logs.show');
 
         Route::post('logout', [AuthenticatedAdminSessionController::class, 'destroy'])->name('admin.logout');
     });

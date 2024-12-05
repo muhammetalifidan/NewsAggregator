@@ -32,9 +32,9 @@ class IncomingLogController extends Controller
         $incomingLogs = $this->incomingLogRepository->all($perPage, $search);
 
         if ($request->ajax()) {
-            return view('pages.incoming_logs.table', compact('incomingLogs'));
+            return view('pages.incoming-logs.table', compact('incomingLogs'));
         }
-        return view('pages.incoming_logs.index', compact('incomingLogs', 'perPage', 'search'));
+        return view('pages.incoming-logs.index', compact('incomingLogs', 'perPage', 'search'));
     }
 
     public function show(IncomingLog $incomingLog)
@@ -43,6 +43,6 @@ class IncomingLogController extends Controller
 
         $incomingLog = $this->incomingLogRepository->find($incomingLog);
 
-        return view('pages.incoming_logs.show', compact('incomingLog'));
+        return view('pages.incoming-logs.show', compact('incomingLog'));
     }
 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });

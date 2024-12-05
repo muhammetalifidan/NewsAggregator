@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
@@ -9,7 +9,7 @@
                 </h4>
             </div>
             <div class="d-flex ms-auto">
-                <a href="{{ route('admin-user.index') }}" class="btn btn-outline-dark rounded">
+                <a href="{{ route('admin-users.index') }}" class="btn btn-outline-dark rounded">
                     Back <i class="ph-arrow-u-up-left ms-2"></i>
                 </a>
             </div>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="card-body border-top">
-                <form action="{{ route('admin-user.update', ['admin_user' => $adminUser]) }}" method="POST">
+                <form action="{{ route('admin-users.update', ['admin_user' => $adminUser]) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="card-body border-top">
-                    <form action="{{ route('admin-user.role', ['admin_user' => $adminUser]) }}" method="POST">
+                    <form action="{{ route('admin-users.role', ['admin_user' => $adminUser]) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -123,7 +123,7 @@
                     <summary class="w-100 btn btn-outline-danger">Delete Account
                         <i class="ph-trash ms-2"></i>
                     </summary>
-                    <form action="{{ route('admin-user.destroy', ['admin_user' => $adminUser]) }}" method="POST">
+                    <form action="{{ route('admin-users.destroy', ['admin_user' => $adminUser]) }}" method="POST">
                         @csrf
                         @method('DELETE')
 

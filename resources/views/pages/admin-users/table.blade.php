@@ -23,11 +23,11 @@
                     <td>{{ $user->created_at }}</td>
                     <td>
                         <div class="d-inline-flex">
-                            <a href="{{ route('admin-user.edit', ['admin_user' => $user->id]) }}" class="text-body"
+                            <a href="{{ route('admin-users.edit', ['admin_user' => $user->id]) }}" class="text-body"
                                 data-bs-popup="tooltip" aria-label="Options" data-bs-original-title="Options">
                                 <i class="ph-gear"></i>
                             </a>
-                            <a href="{{ route('admin-user.show', ['admin_user' => $user->id]) }}" class="text-body mx-3"
+                            <a href="{{ route('admin-users.show', ['admin_user' => $user->id]) }}" class="text-body mx-3"
                                 data-bs-popup="tooltip" aria-label="Details" data-bs-original-title="Details">
                                 <i class="ph-eye"></i>
                             </a>

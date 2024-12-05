@@ -21,7 +21,6 @@ class AdminUserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->email(),
             'password' => Hash::make('password'),
-            'status' => 'approved',
         ];
     }
 }

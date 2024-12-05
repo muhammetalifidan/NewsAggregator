@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Contracts\AdminUserRepositoryInterface;
-use App\Enum\AdminUserStatusesEnum;
-use App\Enum\RolesEnum;
+use App\Enum\RoleType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManageAdminUserRoleRequest;
 use App\Http\Requests\UpdateAdminUserRequest;
@@ -42,12 +41,11 @@ class AdminUserController extends Controller
         }
 
         $adminUsers = $this->adminUserRepository->all($perPage, $search);
-        $statuses = AdminUserStatusesEnum::labels();
 
         if ($request->ajax()) {
-            return view('pages.admin_users.table', compact('adminUsers'));
+            return view('pages.admin-users.table', compact('adminUsers'));
         }
-        return view('pages.admin_users.index', compact('adminUsers', 'perPage', 'search', 'statuses'));
+        return view('pages.admin-users.index', compact('adminUsers', 'perPage', 'search'));
     }
 
     /**
@@ -60,7 +58,7 @@ class AdminUserController extends Controller
         Gate::authorize('view', [AdminUser::class, $adminUser->id]);
 
         $adminUser = $this->adminUserRepository->find($adminUser);
-        return view('pages.admin_users.show', compact('adminUser'));
+        return view('pages.admin-users.show', compact('adminUser'));
     }
 
     /**
@@ -74,10 +72,10 @@ class AdminUserController extends Controller
 
         $rawData = $this->adminUserRepository->find($adminUser);
         $adminUser = new AdminUserResource($rawData);
-        $roles = RolesEnum::labels();
+        $roles = RoleType::labels();
         $adminUserRole = $adminUser->getRoleNames()->first();
 
-        return view('pages.admin_users.edit', compact(['adminUser', 'roles', 'adminUserRole']));
+        return view('pages.admin-users.edit', compact(['adminUser', 'roles', 'adminUserRole']));
     }
 
     /**
@@ -116,7 +114,7 @@ class AdminUserController extends Controller
     {
         Gate::authorize('destroy', [AdminUser::class, $adminUser->id]);
 
-        if (auth('admin')->user()->hasRole(RolesEnum::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
+        if (auth('admin')->user()->hasRole(RoleType::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
             return back()->withErrors(['errors' => 'Super Admin accounts cannot be deleted.']);
         }
 
@@ -130,14 +128,14 @@ class AdminUserController extends Controller
             return redirect('/');
         }
 
-        return redirect(route('admin-user.index'));
+        return redirect(route('admin-users.index'));
     }
 
     public function manageRole(ManageAdminUserRoleRequest $request, AdminUser $adminUser): RedirectResponse
     {
         Gate::authorize('manageRole', [AdminUser::class]);
 
-        if (auth('admin')->user()->hasRole(RolesEnum::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
+        if (auth('admin')->user()->hasRole(RoleType::SuperAdmin->value, 'admin') && $adminUser->id === auth('admin')->user()->id) {
             return back()->withErrors(['errors' => 'Super Admin role cannot be changed.']);
         }
 

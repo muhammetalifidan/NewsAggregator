@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enum\PermissionsEnum;
-use App\Enum\RolesEnum;
+use App\Enum\PermissionType;
+use App\Enum\RoleType;
 use App\Models\AdminUser;
 
 class IncomingLogPolicy
@@ -13,11 +13,11 @@ class IncomingLogPolicy
      */
     public function viewAny(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ListIncomingLogs)) {
+        if ($adminUser->can(PermissionType::ListIncomingLogs)) {
             return true;
         }
 
@@ -29,11 +29,11 @@ class IncomingLogPolicy
      */
     public function view(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ShowAnyIncomingLog)) {
+        if ($adminUser->can(PermissionType::ShowAnyIncomingLog)) {
             return true;
         }
 

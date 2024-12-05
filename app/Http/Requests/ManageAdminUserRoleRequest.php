@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enum\RolesEnum;
+use App\Enum\RoleType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ManageAdminUserRoleRequest extends FormRequest
@@ -23,7 +23,7 @@ class ManageAdminUserRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role' => ['required', 'in:' . implode(',', array_column(RolesEnum::cases(), 'value'))]
+            'role' => ['required', 'in:' . implode(',', array_column(RoleType::cases(), 'value'))]
         ];
     }
 }

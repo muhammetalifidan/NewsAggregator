@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum PermissionsEnum: string
+enum PermissionType: string
 {
     case ListAdminUsers = 'list.admin-users';
     case ShowAnyAdminUser = 'show.any.admin-user';

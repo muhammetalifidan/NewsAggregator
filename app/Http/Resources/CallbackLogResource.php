@@ -16,7 +16,7 @@ class CallbackLogResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'incoming_log' => new IncomingLogResource($this->incomingLog()),
+            'incoming_log_id' => $this->incoming_log_id,
             'result' => $this->result,
             'status' => $this->status,
             'created_at' => $this->created_at->toDateTimeString(),

@@ -1,11 +1,11 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
         <div class="page-header-content d-lg-flex">
             <div class="d-flex">
                 <h4 class="page-title mb-0">
-                    Admin Users
+                    Incoming Logs
                 </h4>
 
                 <a href="#page_header"
@@ -24,7 +24,7 @@
         <!-- Hover rows -->
         <div class="card">
             <div class="card-header d-flex">
-                <h5 class="mb-0 me-auto">Admins</h5>
+                <h5 class="mb-0 me-auto">Logs</h5>
             </div>
 
             <div class="card-body">
@@ -50,7 +50,7 @@
 
 
             <div id="table-container">
-                @include('pages.admin_users.table')
+                @include('pages.incoming-logs.table')
             </div>
 
         </div>
@@ -72,7 +72,7 @@
                 const perPage = $('#perPageSelect').val();
 
                 $.ajax({
-                    url: '{{ route('admin-user.index') }}',
+                    url: '{{ route('incoming-logs.index') }}',
                     data: {
                         search: searchValue,
                         per_page: perPage
@@ -89,7 +89,7 @@
             const perPage = $(this).val();
 
             $.ajax({
-                url: '{{ route('admin-user.index') }}',
+                url: '{{ route('incoming-logs.index') }}',
                 data: {
                     search: searchValue,
                     per_page: perPage
@@ -108,7 +108,7 @@
                 const perPage = $('#perPageSelect').val();
 
                 $.ajax({
-                    url: '{{ route('admin-user.index') }}',
+                    url: '{{ route('incoming-logs.index') }}',
                     data: {
                         search: searchValue,
                         per_page: perPage

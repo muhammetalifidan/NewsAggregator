@@ -1,15 +1,15 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
         <div class="page-header-content d-lg-flex align-items-center">
             <div class="d-flex">
                 <h4 class="page-title mb-0">
-                    Incoming Log Details
+                    Admin User Details
                 </h4>
             </div>
             <div class="d-flex ms-auto">
-                <a href="{{ route('incoming-log.index') }}" class="btn btn-outline-dark rounded">
+                <a href="{{ route('admin-users.index') }}" class="btn btn-outline-dark rounded">
                     Back <i class="ph-arrow-u-up-left ms-2"></i>
                 </a>
             </div>
@@ -30,50 +30,43 @@
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">ID:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->id }}" disabled>
+                        <input type="text" class="form-control" value="{{ $adminUser->id }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Incoming Log Data ID:</label>
+                    <label class="col-lg-3 col-form-label">Name:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->incoming_log_data_id }}"
-                            disabled>
+                        <input type="text" class="form-control" value="{{ $adminUser->name }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Source:</label>
+                    <label class="col-lg-3 col-form-label">Email:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->source }}" disabled>
+                        <input type="text" class="form-control" value="{{ $adminUser->email }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Title:</label>
+                    <label class="col-lg-3 col-form-label">Password:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->title }}" disabled>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Word Count:</label>
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->word_count }}" disabled>
+                        <input type="text" class="form-control"
+                            value="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">Created At:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->created_at }}" disabled>
+                        <input type="text" class="form-control" value="{{ $adminUser->created_at }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Update At:</label>
+                    <label class="col-lg-3 col-form-label">Updated At:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $incomingLog->created_at }}" disabled>
+                        <input type="text" class="form-control" value="{{ $adminUser->updated_at }}" disabled>
                     </div>
                 </div>
             </div>

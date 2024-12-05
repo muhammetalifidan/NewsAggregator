@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enum\PermissionsEnum;
-use App\Enum\RolesEnum;
+use App\Enum\PermissionType;
+use App\Enum\RoleType;
 use App\Models\AdminUser;
 
 class AdminUserPolicy
@@ -13,11 +13,11 @@ class AdminUserPolicy
      */
     public function viewAny(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin->value)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin->value)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ListAdminUsers->value)) {
+        if ($adminUser->can(PermissionType::ListAdminUsers->value)) {
             return true;
         }
 
@@ -29,15 +29,15 @@ class AdminUserPolicy
      */
     public function view(AdminUser $adminUser, $id): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin->value)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin->value)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ShowAnyAdminUser->value)) {
+        if ($adminUser->can(PermissionType::ShowAnyAdminUser->value)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::ShowOwnAdminUser)) {
+        if ($adminUser->can(PermissionType::ShowOwnAdminUser)) {
             return $adminUser->id === $id;
         }
 
@@ -49,11 +49,11 @@ class AdminUserPolicy
      */
     public function update(AdminUser $adminUser, $id): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin->value)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin->value)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::UpdateOwnAdminUser)) {
+        if ($adminUser->can(PermissionType::UpdateOwnAdminUser)) {
             return $adminUser->id === $id;
         }
 
@@ -65,11 +65,11 @@ class AdminUserPolicy
      */
     public function destroy(AdminUser $adminUser, $id): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin->value)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin->value)) {
             return true;
         }
 
-        if ($adminUser->can(PermissionsEnum::DestroyOwnAdminUser)) {
+        if ($adminUser->can(PermissionType::DestroyOwnAdminUser)) {
             return $adminUser->id === $id;
         }
 
@@ -78,7 +78,7 @@ class AdminUserPolicy
 
     public function manageRole(AdminUser $adminUser): bool
     {
-        if ($adminUser->hasRole(RolesEnum::SuperAdmin->value)) {
+        if ($adminUser->hasRole(RoleType::SuperAdmin->value)) {
             return true;
         }
 

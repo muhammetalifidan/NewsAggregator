@@ -12,7 +12,7 @@ class AuthenticatedAdminSessionController extends Controller
 {
     public function create(): View
     {
-        return view('pages.auth.admin_login');
+        return view('pages.auth.admin-login');
     }
 
     public function store(LoginAdminUserRequest $request)

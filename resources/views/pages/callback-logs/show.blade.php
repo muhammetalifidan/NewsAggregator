@@ -1,15 +1,15 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <!-- Page header -->
     <div class="page-header page-header-light shadow">
         <div class="page-header-content d-lg-flex align-items-center">
             <div class="d-flex">
                 <h4 class="page-title mb-0">
-                    Admin User Details
+                    Callback Log Details
                 </h4>
             </div>
             <div class="d-flex ms-auto">
-                <a href="{{ route('admin-user.index') }}" class="btn btn-outline-dark rounded">
+                <a href="{{ route('callback-logs.index') }}" class="btn btn-outline-dark rounded">
                     Back <i class="ph-arrow-u-up-left ms-2"></i>
                 </a>
             </div>
@@ -30,51 +30,42 @@
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">ID:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $adminUser->id }}" disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->id }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Name:</label>
+                    <label class="col-lg-3 col-form-label">Incoming Log ID:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $adminUser->name }}" disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->incomingLog->id }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Email:</label>
+                    <label class="col-lg-3 col-form-label">Result:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $adminUser->email }}" disabled>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Password:</label>
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control"
-                            value="••••••••••••••••••••••••••••••••••••••••••••••••••••••••••" disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->result }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">Status:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control text-capitalize" value="{{ $adminUser->status }}"
-                            disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->status }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">Created At:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $adminUser->created_at }}" disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->created_at }}" disabled>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-lg-3 col-form-label">Updated At:</label>
+                    <label class="col-lg-3 col-form-label">Update At:</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" value="{{ $adminUser->updated_at }}" disabled>
+                        <input type="text" class="form-control" value="{{ $callbackLog->created_at }}" disabled>
                     </div>
                 </div>
             </div>
