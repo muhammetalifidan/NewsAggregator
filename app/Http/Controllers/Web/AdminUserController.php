@@ -11,6 +11,7 @@ use App\Http\Resources\AdminUserResource;
 use App\Models\AdminUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -33,14 +34,19 @@ class AdminUserController extends Controller
     {
         Gate::authorize('viewAny', AdminUser::class);
 
-        $perPage = $request->get('per_page');
+        $perPage = $request->get('per_page', 10);
         $search = $request->get('search');
+        $page = $request->get('page', 1);
 
         if (empty($perPage) || $perPage <= 0) {
             $perPage = 10;
         }
 
-        $adminUsers = $this->adminUserRepository->all($perPage, $search);
+        $adminUsers = Cache::tags(['admin_users'])->remember(
+            key: "admin_users:per_page={$perPage}:page={$page}:search={$search}",
+            ttl: now()->addHour(),
+            callback: fn() => $this->adminUserRepository->all($perPage, $search)
+        );
 
         if ($request->ajax()) {
             return view('pages.admin-users.table', compact('adminUsers'));
@@ -49,15 +55,25 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     * @param \App\Models\AdminUser $adminUser
-     * @return \Illuminate\View\View
+     * Display the details of a specific AdminUser.
+     *
+     * Authorizes the user to view the AdminUser resource,
+     * caches the data to improve performance, and
+     * returns the admin user details to the corresponding view.
+     *
+     * @param \App\Models\AdminUser $adminUser The AdminUser instance to display.
+     * @return \Illuminate\View\View The rendered view for the AdminUser details page.
      */
     public function show(AdminUser $adminUser): View
     {
         Gate::authorize('view', [AdminUser::class, $adminUser->id]);
 
-        $adminUser = $this->adminUserRepository->find($adminUser);
+        $adminUser = Cache::remember(
+            key: "admin_user:{$adminUser->id}",
+            ttl: now()->addHour(),
+            callback: fn() => $this->adminUserRepository->find($adminUser)
+        );
+
         return view('pages.admin-users.show', compact('adminUser'));
     }
 
@@ -70,7 +86,12 @@ class AdminUserController extends Controller
     {
         Gate::authorize('update', [AdminUser::class, $adminUser->id]);
 
-        $rawData = $this->adminUserRepository->find($adminUser);
+        $rawData = Cache::remember(
+            key: "admin_user_edit:{$adminUser->id}",
+            ttl: now()->addHour(),
+            callback: fn() => $this->adminUserRepository->find($adminUser)
+        );
+
         $adminUser = new AdminUserResource($rawData);
         $roles = RoleType::labels();
         $adminUserRole = $adminUser->getRoleNames()->first();
@@ -102,6 +123,10 @@ class AdminUserController extends Controller
             return back()->withErrors(['errors' => 'Failed to update admin user.']);
         }
 
+        Cache::forget("admin_user:{$adminUser->id}");
+        Cache::forget("admin_user_edit:{$adminUser->id}");
+        Cache::tags(['admin_users'])->flush();
+
         return back()->with('success', 'Admin user updated successfully.');
     }
 
@@ -124,6 +149,10 @@ class AdminUserController extends Controller
             return back()->withErrors(['errors' => 'Failed to delete admin user.']);
         }
 
+        Cache::forget("admin_user:{$adminUser->id}");
+        Cache::forget("admin_user_edit:{$adminUser->id}");
+        Cache::tags(['admin_users'])->flush();
+
         if ($result && $adminUser->id === auth('admin')->user()->id) {
             return redirect('/');
         }
@@ -145,6 +174,10 @@ class AdminUserController extends Controller
         if (!$result) {
             return back()->withErrors(['errors' => 'Failed to change admin user role.']);
         }
+
+        Cache::forget("admin_user:{$adminUser->id}");
+        Cache::forget("admin_user_edit:{$adminUser->id}");
+        Cache::tags(['admin_users'])->flush();
 
         return back()->with('success', 'Admin user role changed successfully.');
     }

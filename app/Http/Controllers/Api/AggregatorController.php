@@ -12,6 +12,7 @@ use App\Models\IncomingLog;
 use App\Models\IncomingLogData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class AggregatorController extends Controller
@@ -66,6 +67,10 @@ class AggregatorController extends Controller
                     CallbackLogStatusType::Confirmed->value
                 );
             }
+
+            Cache::tags(['incoming_logs'])->flush();
+            Cache::tags(['callback_logs'])->flush();
+
         }, 2);
 
         return response()->json(
@@ -100,6 +105,9 @@ class AggregatorController extends Controller
                 $incomingLog->source = 'https://www.ilkduy.com';
 
                 $storedIncomingLog = $this->incomingLogRepository->store($incomingLog);
+
+                Cache::put("incoming_log:{$storedIncomingLog->id}", $storedIncomingLog, now()->addHour());
+
                 array_push($incomingLogs, $storedIncomingLog);
             }
         }
@@ -119,6 +127,10 @@ class AggregatorController extends Controller
         $callbackLog->result = $result;
         $callbackLog->status = $status;
 
-        return $this->callbackLogRepository->store($callbackLog);
+        $storedCallbackLog = $this->callbackLogRepository->store($callbackLog);
+
+        Cache::put("callback_log:{$storedCallbackLog->id}", $storedCallbackLog, now()->addHour());
+
+        return $storedCallbackLog;
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterAdminUserRequest;
 use App\Models\AdminUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class RegisteredAdminController extends Controller
@@ -32,6 +33,10 @@ class RegisteredAdminController extends Controller
         event(new Registered($adminUser));
 
         Auth::login($adminUser);
+
+        Cache::put(key: "admin_user:{$adminUser->id}", value: $adminUser, ttl: now()->addHour());
+        Cache::put(key: "admin_user_edit:{$adminUser->id}", value: $adminUser, ttl: now()->addHour());
+        Cache::tags(['admin_users'])->flush();
 
         return redirect()->intended(route('admin.dashboard.index', absolute: false));
     }
