@@ -38,9 +38,9 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::middleware('auth.admin.guest')->group(function () {
         Route::get('register', [RegisteredAdminController::class, 'create'])->name('admin.register');
-        Route::post('register', [RegisteredAdminController::class, 'store']);
+        Route::post('register', [RegisteredAdminController::class, 'store'])->name('admin.register.store');
 
         Route::get('login', [AuthenticatedAdminSessionController::class, 'create'])->name('admin.login');
-        Route::post('login', [AuthenticatedAdminSessionController::class, 'store']);
+        Route::post('login', [AuthenticatedAdminSessionController::class, 'store'])->name('admin.login.store');
     });
 });
