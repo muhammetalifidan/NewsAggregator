@@ -30,4 +30,11 @@ class CallbackLogRepository implements CallbackLogRepositoryInterface
     {
         return new CallbackLogResource($callbackLog);
     }
+
+    public function store(CallbackLog $callbackLog): CallbackLog
+    {
+        $callbackLog->save();
+
+        return $callbackLog;
+    }
 }

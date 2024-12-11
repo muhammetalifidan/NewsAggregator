@@ -10,4 +10,5 @@ interface CallbackLogRepositoryInterface
 {
     public function all(int $perPage = 10, ?string $search = null): ResourceCollection;
     public function find(CallbackLog $callbackLog): CallbackLogResource;
+    public function store(CallbackLog $callbackLog): CallbackLog;
 }

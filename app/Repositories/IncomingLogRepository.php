@@ -31,4 +31,16 @@ class IncomingLogRepository implements IncomingLogRepositoryInterface
     {
         return new IncomingLogResource($incomingLog);
     }
+
+    public function getInsertedRecords()
+    {
+        return IncomingLog::get()->select(['title', 'word_count'])->toArray();
+    }
+
+    public function store(IncomingLog $incomingLog): IncomingLog
+    {
+        $incomingLog->save();
+
+        return $incomingLog;
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Api;
+namespace App\Repositories;
 
-use App\Contracts\Api\IncomingLogDataRepositoryInterface;
+use App\Contracts\IncomingLogDataRepositoryInterface;
 use App\Models\IncomingLogData;
 
 class IncomingLogDataRepository implements IncomingLogDataRepositoryInterface

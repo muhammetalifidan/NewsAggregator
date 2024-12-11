@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Api;
+namespace App\Contracts;
 
 use App\Models\IncomingLogData;
 

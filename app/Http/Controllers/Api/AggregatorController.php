@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Contracts\Api\CallbackLogRepositoryInterface;
-use App\Contracts\Api\IncomingLogDataRepositoryInterface;
-use App\Contracts\Api\IncomingLogRepositoryInterface;
+use App\Contracts\CallbackLogRepositoryInterface;
+use App\Contracts\IncomingLogDataRepositoryInterface;
+use App\Contracts\IncomingLogRepositoryInterface;
 use App\Enum\CallbackLogStatusType;
 use App\Http\Controllers\Controller;
 use App\Models\CallbackLog;

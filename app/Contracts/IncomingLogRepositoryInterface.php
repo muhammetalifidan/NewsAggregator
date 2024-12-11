@@ -10,4 +10,6 @@ interface IncomingLogRepositoryInterface
 {
     public function all(int $perPage = 10, ?string $search = null): ResourceCollection;
     public function find(IncomingLog $incomingLog): IncomingLogResource;
+    public function getInsertedRecords();
+    public function store(IncomingLog $incomingLog): IncomingLog;
 }
