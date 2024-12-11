@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.app')
 @section('content')
     <!-- Content area -->
     <div class="content d-flex justify-content-center align-items-center">

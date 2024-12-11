@@ -37,9 +37,11 @@
     <!-- Page content -->
     <div class="page-content">
 
-        <!-- Main sidebar -->
-        @include('inc/sidebar')
-        <!-- /main sidebar -->
+        @auth('admin')
+            <!-- Main sidebar -->
+            @include('inc/sidebar')
+            <!-- /main sidebar -->
+        @endauth
 
         <!-- Main content -->
         <div class="content-wrapper">
