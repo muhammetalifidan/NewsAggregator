@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\AggregatorController;
+use App\Http\Controllers\Api\Auth\AuthenticatedAdminSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 Route::post('/test', function (Request $request) { });
 
-Route::post('/callback', [AggregatorController::class, 'callback']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/callback', [AggregatorController::class, 'callback']);
+});
+
+Route::post('/login', [AuthenticatedAdminSessionController::class, 'store']);
